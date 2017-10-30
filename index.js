@@ -14,39 +14,16 @@ let fs = require('fs');
  * Get port from environment and store in Express.
  */
 
-let port = normalizePort(process.env.PORT || '3012');
+let port = normalizePort(3012);
 app.set('port', port);
-
-/**
- * Create HTTP server.
- */
 
 let server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Create HTTPS server.
- */
-
-
-let secureServer = https.createServer({}, app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-secureServer.listen(app.get('port'), function() {
+server.listen(app.get('port'), function() {
     console.log('Server listening on port ', app.get('port'));
 });
-secureServer.on('error', onError);
-secureServer.on('listening', onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -105,5 +82,5 @@ function onListening() {
     let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
-    // debug('Listening on ' + bind);
+    console.dir('Listening on ' + bind);
 }

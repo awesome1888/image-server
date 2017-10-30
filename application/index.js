@@ -11,17 +11,17 @@ let app = express();
 
 // Secure traffic only
 // todo: implement this
-if (false)
-{
-    app.all('*', function(req, res, next){
-        // console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
-        if (req.secure) {
-            return next();
-        };
-
-        res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
-    });
-}
+// if (false)
+// {
+//     app.all('*', function(req, res, next){
+//         // console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
+//         if (req.secure) {
+//             return next();
+//         };
+//
+//         res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
+//     });
+// }
 
 // uncomment after placing your favicon in /public
 // app.use(logger('dev'));
@@ -30,9 +30,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // passport config
 // app.use(passport.initialize());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/:file', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
