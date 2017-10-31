@@ -29,7 +29,7 @@ gulp.task('server', function() {
 gulp.task('default', function() {
     gulp.run('server');
 
-    gulp.watch(['./index.js', './application/**/*.js'], function() {
+    gulp.watch(['./index.js', './application/**/*.js', './lib/**/*.js'], function() {
         gulp.run('server');
     });
 
