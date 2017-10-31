@@ -3,6 +3,7 @@ let config = require('../config.js');
 let _ = require('../lib/_.js');
 
 let fs = require('fs');
+let sharp = require('sharp');
 
 class Application extends BaseApplication
 {
@@ -16,6 +17,10 @@ class Application extends BaseApplication
         return [
             {
                 path: '/:file',
+                handler: this.processImage,
+            },
+            {
+                path: '/:file/:sizeX/:sizeY',
                 handler: this.processImage,
             },
         ];
@@ -36,16 +41,45 @@ class Application extends BaseApplication
             this.send500(res);
         }
 
-        // no parameters - just stream the file as-is
+        const size = this.extractSize(req);
+        if (size)
+        {
+            try
+            {
+                sharp(path)
+                    .resize(size[0], size[1])
+                    .jpeg({
+                        quality: 91,
+                    })
+                    .toBuffer()
+                    .then((data) => {
+                        this.setContentTypeHeader(res);
+                        res.end(data);
+                    })
+                    .catch(() => {
+                        this.send404(res);
+                    });
+            } catch(e) {
+                this.send500(res);
+            }
+        }
+        else
+        {
+            this.streamFile(path, res);
+        }
+    }
 
-        // have resize parameters, then 0) check if cached (if so, read from the cache) 1) resize, 2) save in the cache, 3) read from the cache
+    extractSize(req)
+    {
+        const x = parseInt(req.params.sizeX);
+        const y = parseInt(req.params.sizeY);
 
-        this.streamFile(path, res);
+        if (x > 0 && y > 0)
+        {
+            return [x, y];
+        }
 
-        // res.send(path);
-        //
-        // res.write('New image');
-        // res.end();
+        return null;
     }
 
     streamFile(path, res)
@@ -62,7 +96,7 @@ class Application extends BaseApplication
             }
         });
         stream.on('open', () => {
-            this.attachCacheControl(res);
+            this.setCacheControlHeaders(res);
         });
 
         stream.pipe(res);
@@ -75,6 +109,8 @@ class Application extends BaseApplication
         {
             return '';
         }
+
+        file = file.replace(/\.+/g, '.');
 
         const subFolder = file.substr(0, 3);
 
