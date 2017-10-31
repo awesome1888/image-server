@@ -20,7 +20,9 @@ class Application extends BaseApplicatin
 
     processImage(req, res, next)
     {
-
+        console.dir('new image!');
+        res.write('New image');
+        res.end();
     }
 }
 
