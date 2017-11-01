@@ -44,6 +44,12 @@ class Application extends BaseApplication
         const size = this.extractSize(req);
         if (size)
         {
+            if (!this.isLegalSize(size))
+            {
+                this.send400(res);
+                return;
+            }
+
             this.streamResized(file, size, res).catch(() => {
                 // not found, create and try to stream again
                 try
@@ -120,6 +126,20 @@ class Application extends BaseApplication
         }
 
         return null;
+    }
+
+    isLegalSize(size)
+    {
+        const sizes = this.getLegalSizeObject();
+        if (_.isObjectNotEmpty(sizes))
+        {
+            return `${size[0]}x${size[1]}` in sizes;
+        }
+        else
+        {
+            // no legal sizes defined, it is unsafe to go without such kind of restriction
+            return false;
+        }
     }
 
     streamFile(path, res)
@@ -206,6 +226,24 @@ class Application extends BaseApplication
         return this.makeFolder(path).catch(x => x);
     }
 
+    getLegalSizes()
+    {
+        return this.getSettings().legalSizes || [];
+    }
+
+    getLegalSizeObject()
+    {
+        if (!this._legalSizes)
+        {
+            this._legalSizes = this.getLegalSizes().reduce((result, item) => {
+                result[`${item[0]}x${item[1]}`] = true;
+                return result;
+            }, {});
+        }
+
+        return this._legalSizes;
+    }
+
     // fs
     // todo: move to a separate module
     makeFolder(folder)
@@ -223,16 +261,6 @@ class Application extends BaseApplication
             });
         });
     }
-
-    // static isExists(folder)
-    // {
-    //     return new Promise((resolve) => {
-    //         fs.stat(folder, (err) => {
-    //             // todo: poor check
-    //             resolve(!err);
-    //         });
-    //     });
-    // }
 }
 
 module.exports = Application;
