@@ -16,10 +16,12 @@ if (cluster.isMaster)
     }
 
     cluster.on('exit', (worker, code, signal) => {
-        console.log(`worker ${worker.process.pid} died`);
+        console.log(`Worker ${worker.process.pid} died, replacing...`);
         cluster.fork();
     });
-} else {
+}
+else
+{
     // creating worker application, it will share all tcp connections
     // https://linuxtrainers.wordpress.com/2014/12/31/how-fork-system-call-works-what-is-shared-between-parent-and-child-process/
     (new Application()).launch();
