@@ -16,5 +16,6 @@ module.exports = {
         [100, 100], // admin previews
         [10, 10], // for fun
     ],
+    useCluster: true,
     // todo: implement cache ttl
 };
