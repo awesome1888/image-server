@@ -32,13 +32,15 @@ class Application extends BaseApplication
 
         if (!_.isStringNotEmpty(file))
         {
-            this.send400(res);
+            res.s404().end();
+            return;
         }
 
         const path = this.getFilePath(file);
         if (!_.isStringNotEmpty(path))
         {
-            this.send500(res);
+            res.s500().end();
+            return;
         }
 
         const size = this.extractSize(req);
