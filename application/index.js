@@ -15,6 +15,10 @@ class Application extends BaseApplication
     getRouteMap()
     {
         return [
+            // {
+            //     path: '/test',
+            //     handler: this.test,
+            // },
             {
                 path: '/:file',
                 handler: this.processImage,
@@ -25,6 +29,13 @@ class Application extends BaseApplication
             },
         ];
     }
+
+    // test(req, res)
+    // {
+    //     res.cache('3d').cache().send({hello: 'there', date: new Date()}).end();
+    //     // res.asText().cookie('suck', 'it').attachmentFileName('fffoooo.txt').asAttachment().charset('cp1251').noCache().write('hello').end();
+    //     // res.asText().cookie('suck', 'it').cookie('lala', 'lololo').write('hello').write('_there').end();
+    // }
 
     processImage(req, res)
     {
@@ -43,34 +54,38 @@ class Application extends BaseApplication
             return;
         }
 
+        res.cache('10d');
+
         const size = this.extractSize(req);
         if (size)
         {
             if (!this.isLegalSize(size))
             {
-                this.send400(res);
+                res.s400().end();
                 return;
             }
 
-            this.streamResized(file, size, res).catch(() => {
+            this.streamResized(file, size, res).then(() => {
+                res.end();
+            }).catch(() => {
                 // not found, create and try to stream again
                 try
                 {
                     this.resize(file, size).then((cachedPath) => {
                         // send cached copy, if okay
-                        this.streamFile(cachedPath, res);
+                        res.asJPG();
+                        res.streamFile(cachedPath);
                     }).catch((e) => {
-                        console.dir(e);
-                        this.send500(res);
+                        res.s500().end();
                     });
                 } catch(e) {
-                    this.send500(res);
+                    res.s500().end();
                 }
             });
         }
         else
         {
-            this.streamFile(path, res);
+            res.streamFile(path);
         }
     }
 
@@ -81,18 +96,7 @@ class Application extends BaseApplication
         }).then(() => {
             const cPath = this.getCachedFilePath(file, size);
 
-            return new Promise((resolve, reject) => {
-                const stream = fs.createReadStream(cPath);
-                stream.on('error', (e) => {
-                    reject(e);
-                });
-                stream.on('open', () => {
-                    this.setCacheControlHeaders(res);
-                    resolve();
-                });
-
-                stream.pipe(res);
-            });
+            return res.streamFile(cPath, {setErrorCode: false, doEnd: false});
         });
     }
 
@@ -142,26 +146,6 @@ class Application extends BaseApplication
             // no legal sizes defined, it is unsafe to go without such kind of restriction
             return false;
         }
-    }
-
-    streamFile(path, res)
-    {
-        const stream = fs.createReadStream(path);
-        stream.on('error', (e) => {
-            if (e.code === 'ENOENT')
-            {
-                this.send404(res);
-            }
-            else
-            {
-                this.send500(res);
-            }
-        });
-        stream.on('open', () => {
-            this.setCacheControlHeaders(res);
-        });
-
-        stream.pipe(res);
     }
 
     getFilePath(file)
