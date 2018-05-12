@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  bot.xing:
+    image: awesome1888/backend:latest
+    expose:
+      - 3000
+    depends_on:
+      - nginx
+    environment:
+      - VIRTUAL_HOST=localhost
+      - PORT=3000
+      - DB_URL=mongodb://db:27017/xinginator
+      - NODE_ENV=production
+
+  nginx:
+      image: jwilder/nginx-proxy
+      volumes:
+        - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      ports:
+        - 3200:80
