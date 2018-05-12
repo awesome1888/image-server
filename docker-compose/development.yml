@@ -14,6 +14,7 @@ services:
 
   nginx:
       image: jwilder/nginx-proxy
+      container_name: balancer
       volumes:
         - "/var/run/docker.sock:/tmp/docker.sock:ro"
       ports:
