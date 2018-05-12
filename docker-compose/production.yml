@@ -3,7 +3,7 @@ version: '3'
 services:
 
   bot.xing:
-    image: awesome1888/backend:latest
+    image: awesome1888/image-server:latest
     expose:
       - 3000
     depends_on:
@@ -11,7 +11,6 @@ services:
     environment:
       - VIRTUAL_HOST=localhost
       - PORT=3000
-      - DB_URL=mongodb://db:27017/xinginator
       - NODE_ENV=production
 
   nginx:

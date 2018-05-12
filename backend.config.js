@@ -1,7 +1,7 @@
 module.exports = {
     useCluster: false, // don`t use cluster if you plan to use docker or pm2
-	storagePath: '/home/sergey/upload/',
-	cachePath: '/home/sergey/.image-server-cache/',
+	storagePath: '/home/nodejs/images/',
+	cachePath: '/home/nodejs/.cache/',
 	cacheTime: 3600,
 	legalSizes: [
 		[900, 900], // just for testing

@@ -4,7 +4,7 @@ module.exports = {
 
     port: 3012, // todo: if not specified here, should be taken from env PORT
     database: {
-        url: 'mongodb://localhost:27017/xinginator', // todo: if not specified here, should be taken from env MONGO_URL
+        url: 'mongodb://localhost:27017/database', // todo: if not specified here, should be taken from env MONGO_URL
         connectionRetries: 5,
         connectionTimeout: 1000,
     },

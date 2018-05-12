@@ -14,6 +14,10 @@ export default class Application extends BaseApplication
     {
         return [
 	        {
+		        path: '/',
+		        handler: this.processHome,
+	        },
+	        {
 		        path: '/:file',
 		        handler: this.processImage,
 	        },
@@ -22,6 +26,11 @@ export default class Application extends BaseApplication
 		        handler: this.processImage,
 	        },
         ];
+    }
+
+    processHome(req, res)
+    {
+	    res.s200().send('Welcome to the image server!').end();
     }
 
 	processImage(req, res)
