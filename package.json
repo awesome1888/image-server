@@ -1,21 +1,158 @@
 {
   "name": "image-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "sharp": "^0.18.4",
-    "underscore": "^1.8.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^3.16.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-meteor": "^4.0.1",
+    "eslint-plugin-react": "^6.10.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-docker-compose": "^1.1.2",
+    "gulp-less": "^4.0.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-vfs": "^0.1.1",
+    "vinyl-fs": "^3.0.2"
+  },
+  "lint-staged": {
+    "*.js": "eslint",
+    "*.jsx": "eslint"
+  },
+  "eslintConfig": {
+    "globals": {
+      "_": true,
+      "window": true,
+      "Random": true,
+      "$": true,
+      "FlowRouter": true,
+      "Roles": true,
+      "analytics": true,
+      "document": true,
+      "Session": true,
+      "describe": true,
+      "it": true,
+      "confirm": true,
+      "prompt": true,
+      "Package": true,
+      "atob": true,
+      "btoa": true,
+      "Image": true,
+      "URL": true,
+      "ga": true,
+      "location": true,
+      "google": true,
+      "fbq": true,
+      "sessionStorage": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [],
+    "extends": [
+      "airbnb"
+    ],
+    "ecmaFeatures": {
+      "modules": true,
+      "jsx": true
+    },
+    "settings": {},
+    "rules": {
+      "react/forbid-prop-types": [
+        0
+      ],
+      "import/no-absolute-path": [
+        0
+      ],
+      "comma-dangle": [
+        0
+      ],
+      "import/extensions": [
+        0
+      ],
+      "import/no-extraneous-dependencies": [
+        0
+      ],
+      "object-curly-spacing": [
+        0
+      ],
+      "no-underscore-dangle": [
+        0
+      ],
+      "react/jsx-no-bind": [
+        0
+      ],
+      "import/first": [
+        0
+      ],
+      "react/jsx-indent": [
+        "error",
+        4
+      ],
+      "react/jsx-indent-props": [
+        "error",
+        4
+      ],
+      "react/prop-types": [
+        0
+      ],
+      "indent": [
+        "error",
+        4
+      ],
+      "no-param-reassign": [
+        0
+      ],
+      "class-methods-use-this": [
+        0
+      ],
+      "no-else-return": [
+        0
+      ],
+      "no-plusplus": [
+        0
+      ],
+      "react/prefer-stateless-function": [
+        0
+      ],
+      "no-lonely-if": [
+        0
+      ],
+      "jsx-a11y/no-static-element-interactions": [
+        0
+      ],
+      "arrow-body-style": [
+        0
+      ],
+      "max-len": [
+        0
+      ],
+      "jsx-a11y/label-has-for": [
+        0
+      ],
+      "react/sort-comp": [
+        0
+      ],
+      "react/no-danger": [
+        0
+      ],
+      "prefer-destructuring": [
+        0
+      ],
+      "object-curly-newline": [
+        0
+      ],
+      "padded-blocks": [
+        0
+      ]
+    }
   }
 }

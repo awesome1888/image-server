@@ -3,8 +3,6 @@
 ## Settings in config.js
 ~~~~
 {
-    // the port number this server runs at
-    port: 3012,
     // the location of images we want to serve, should be accessible for reading
     storagePath: '/home/sergey/upload/',
     // the location of the resize cache, should be accessible for both reading and writing
