@@ -6,6 +6,8 @@ services:
     build: ./app/backend/
     expose:
       - 3000
+    volumes:
+      - "/Users/sergei/volumes/pr-legacy/upload/:/home/nodejs/upload/"
     depends_on:
       - nginx
     environment:
