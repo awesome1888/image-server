@@ -10,7 +10,7 @@ services:
       - "/Users/sergei/volumes/pr-legacy/upload/:/home/owner/upload/"
     depends_on:
       - nginx
-    # restart: always
+    restart: always
     environment:
       - VIRTUAL_HOST=localhost
       - PORT=3000
