@@ -3,7 +3,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends vim && apt-get 
 WORKDIR /usr/src/app
 RUN groupadd -r owner && useradd -m -r -g owner owner && chown -R owner:owner /usr/src/app
 USER owner
-RUN chown -R owner:owner /usr/src/app
+RUN chown -R owner:owner /usr/src/app && echo "\nalias ll=\"ls -al\"" >> /home/owner/.bashrc
 COPY package*.json ./
 RUN npm install
 # EXPOSE 3012

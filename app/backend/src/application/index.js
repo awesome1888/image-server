@@ -2,6 +2,7 @@ import BaseApplication from '../lib/application/index.js';
 import config from '../config.js';
 import _ from 'underscore-mixin';
 import sharp from 'sharp';
+import fs from 'fs';
 
 export default class Application extends BaseApplication
 {
@@ -30,8 +31,14 @@ export default class Application extends BaseApplication
 
 	async actBeforeCreateServer() {
     	// prepare folders
-		await this.makeFolder(this.getCachePath());
-		await this.makeFolder(this.getStoragePath());
+		const storagePath = this.getStoragePath();
+		console.dir(`Storage path is: ${storagePath}`);
+
+		const cachePath = this.getCachePath();
+		console.dir(`Cache path is: ${cachePath}`);
+
+		await this.makeFolder(storagePath).catch();
+		await this.makeFolder(cachePath);
 	}
 
     processHome(req, res)
@@ -52,7 +59,7 @@ export default class Application extends BaseApplication
 		const path = this.getFilePath(file);
 		if (!_.isStringNotEmpty(path))
 		{
-			res.s500().end();
+			res.s500('No file path').end();
 			return;
 		}
 
@@ -78,10 +85,12 @@ export default class Application extends BaseApplication
 						res.asJPG();
 						res.streamFile(cachedPath);
 					}).catch((e) => {
-						res.s500().end();
+						console.error(e);
+						res.s500(e.message).end();
 					});
 				} catch(e) {
-					res.s500().end();
+					console.error(e);
+					res.s500(e.message).end();
 				}
 			});
 		}
@@ -232,13 +241,12 @@ export default class Application extends BaseApplication
 		return this._legalSizes;
 	}
 
-	// fs
 	// todo: move to a separate module
 	makeFolder(folder)
 	{
 		return new Promise((resolve, reject) => {
 			fs.mkdir(folder, 0o755, (err) => {
-				if (err)
+				if (err && err.code !== 'EEXIST')
 				{
 					reject(err);
 				}

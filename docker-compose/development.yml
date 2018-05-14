@@ -7,7 +7,7 @@ services:
     expose:
       - 3000
     volumes:
-      - "/Users/sergei/volumes/pr-legacy/upload/:/home/node/upload/"
+      - "/Users/sergei/volumes/pr-legacy/upload/:/home/owner/upload/"
     depends_on:
       - nginx
     # restart: always
