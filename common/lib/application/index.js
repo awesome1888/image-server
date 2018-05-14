@@ -28,6 +28,7 @@ export default class Application
     {
         await this.connectDatabase();
         this.attachMiddleware();
+        await this.actBeforeCreateServer();
         this.createServer();
     }
 
@@ -84,6 +85,9 @@ export default class Application
                 this.send404(res);
             }
         });
+    }
+
+	async actBeforeCreateServer() {
     }
 
     createServer()

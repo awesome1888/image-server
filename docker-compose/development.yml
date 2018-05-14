@@ -7,12 +7,15 @@ services:
     expose:
       - 3000
     volumes:
-      - "/Users/sergei/volumes/pr-legacy/upload/:/home/nodejs/upload/"
+      - "/Users/sergei/volumes/pr-legacy/upload/:/home/node/upload/"
     depends_on:
       - nginx
+    # restart: always
     environment:
       - VIRTUAL_HOST=localhost
       - PORT=3000
+      - STORAGE_PATH=/home/owner/upload/
+      - CACHE_PATH=/home/owner/.resize-cache/
 
   nginx:
       image: jwilder/nginx-proxy
@@ -21,3 +24,4 @@ services:
         - "/var/run/docker.sock:/tmp/docker.sock:ro"
       ports:
         - 3200:80
+      restart: always

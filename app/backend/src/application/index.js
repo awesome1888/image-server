@@ -28,6 +28,12 @@ export default class Application extends BaseApplication
         ];
     }
 
+	async actBeforeCreateServer() {
+    	// prepare folders
+		await this.makeFolder(this.getCachePath());
+		await this.makeFolder(this.getStoragePath());
+	}
+
     processHome(req, res)
     {
 	    res.s200().send('Welcome to the image server!').end();
@@ -161,12 +167,12 @@ export default class Application extends BaseApplication
 
 	getStoragePath()
 	{
-		return this.getSettings().storagePath || '';
+		return process.env.STORAGE_PATH || this.getSettings().storagePath || '';
 	}
 
 	getCachePath()
 	{
-		return this.getSettings().cachePath || '';
+		return process.env.CACHE_PATH || this.getSettings().cachePath || '';
 	}
 
 	getCachedSubPath(file)

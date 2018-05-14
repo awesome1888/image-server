@@ -1,8 +1,9 @@
 FROM node:carbon
 RUN apt-get update && apt-get install -y --no-install-recommends vim && apt-get clean
 WORKDIR /usr/src/app
-RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs && chown -R nodejs:nodejs /usr/src/app
-USER nodejs
+RUN groupadd -r owner && useradd -m -r -g owner owner && chown -R owner:owner /usr/src/app
+USER owner
+RUN chown -R owner:owner /usr/src/app
 COPY package*.json ./
 RUN npm install
 # EXPOSE 3012
