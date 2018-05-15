@@ -105,6 +105,7 @@ module.exports = class TaskMaker
             // },
             exposeCLICommands: true,
             hangOnInt: false,
+	        dockerComposeFileName: `${__dirname}/../docker/development.yml`,
         });
 
         // main task

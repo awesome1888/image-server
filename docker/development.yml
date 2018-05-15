@@ -3,7 +3,9 @@ version: '3'
 services:
 
   backend:
-    build: ./app/backend/
+    build:
+      context: ../app/backend/
+      dockerfile: docker/development.docker
     expose:
       - 3000
     volumes:

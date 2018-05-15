@@ -17,6 +17,7 @@ new GulpDockerCompose(gulp, {
     // },
     exposeCLICommands: true,
     projectFolder: __dirname,
+	dockerComposeFileName: `${__dirname}/docker/development.yml`,
 });
 
 gulp.task('default', [
