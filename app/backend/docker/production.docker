@@ -1,0 +1,10 @@
+FROM node:carbon
+RUN apt-get update && apt-get install -y --no-install-recommends vim && apt-get clean
+WORKDIR /usr/src/app
+RUN groupadd -r owner && useradd -m -r -g owner owner && chown -R owner:owner /usr/src/app
+USER owner
+ENV NODE_ENV=production
+COPY package*.json ./
+RUN npm install
+COPY ./build/ .
+CMD [ "npm", "start" ]

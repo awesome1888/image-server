@@ -2,20 +2,29 @@ version: '3'
 
 services:
 
-  bot.xing:
-    image: awesome1888/image-server:latest
+  backend:
+    build:
+      context: ../app/backend/
+      dockerfile: docker/development.docker
     expose:
       - 3000
+    volumes:
+      - "/Users/sergei/volumes/pr-legacy/upload/:/home/owner/upload/"
     depends_on:
       - nginx
+    restart: always
     environment:
+      - NODE_ENV=production
       - VIRTUAL_HOST=localhost
       - PORT=3000
-      - NODE_ENV=production
+      - STORAGE_PATH=/home/owner/upload/
+      - CACHE_PATH=/home/owner/.resize-cache/
 
   nginx:
       image: jwilder/nginx-proxy
+      container_name: balancer
       volumes:
         - "/var/run/docker.sock:/tmp/docker.sock:ro"
       ports:
         - 3200:80
+      restart: always
