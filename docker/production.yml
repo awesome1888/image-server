@@ -3,9 +3,7 @@ version: '3'
 services:
 
   backend:
-    build:
-      context: ../app/backend/
-      dockerfile: docker/development.docker
+    image: "awesome1888/image-server:latest"
     expose:
       - 3000
     volumes:
